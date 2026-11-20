@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoKigali | Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7f5;
+            display: flex;
+            color: #26352c;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #145c38;
+            color: white;
+            padding: 25px 18px;
+            position: fixed;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .logo span {
+            color: #a5e6b5;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .sidebar li:hover,
+        .sidebar li.active {
+            background: #267c4d;
+        }
+
+        /* Main content */
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 27px;
+        }
+
+        .profile {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+        }
+
+        /* Statistics */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 23px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: #718078;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            font-size: 28px;
+            color: #145c38;
+        }
+
+        .card p {
+            font-size: 12px;
+            color: #6d8b78;
+            margin-top: 10px;
+        }
+
+        /* Content sections */
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 23px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+            font-size: 19px;
+        }
+
+        /* Activity bars */
+        .bar-item {
+            margin-bottom: 18px;
+        }
+
+        .bar-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .bar {
+            height: 10px;
+            background: #e6eee8;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #23965b;
+            border-radius: 10px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 10px;
+            text-align: left;
+            border-bottom: 1px solid #edf0ed;
+            font-size: 13px;
+        }
+
+        th {
+            color: #718078;
+        }
+
+        .status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .completed {
+            background: #d9f5e3;
+            color: #16723c;
+        }
+
+        .pending {
+            background: #fff0ce;
+            color: #a46a00;
+        }
+
+        .btn {
+            background: #16834b;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #106738;
+        }
+
+        @media(max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 650px) {
+            .sidebar {
+                width: 65px;
+                padding: 15px 8px;
+            }
+
+            .logo {
+                font-size: 12px;
+                margin-bottom: 25px;
+            }
+
+            .sidebar li {
+                font-size: 0;
+                text-align: center;
+            }
+
+            .main {
+                margin-left: 65px;
+                width: calc(100% - 65px);
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar h1 {
+                font-size: 19px;
+            }
+
+            table {
+                min-width: 500px;
+            }
+
+            .section {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">♻ Eco<span>Kigali</span></div>
+
+        <ul>
+            <li class="active">📊 Dashboard</li>
+            <li>♻ Waste Records</li>
+            <li>🚛 Collections</li>
+            <li>👥 Users</li>
+            <li>📍 Collection Points</li>
+            <li>📈 Reports</li>
+            <li>⚙ Settings</li>
+        </ul>
+    </aside>
+
+    <!-- Main Dashboard -->
+    <main class="main">
+
+        <div class="topbar">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome to EcoKigali Management System</p>
+            </div>
+
+            <div class="profile">
+                👤 Administrator
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+
+            <div class="card">
+                <h3>Total Waste Registered</h3>
+                <h2>2,450 kg</h2>
+                <p>Waste registered in the system</p>
+            </div>
+
+            <div class="card">
+                <h3>Recycled Waste</h3>
+                <h2>1,680 kg</h2>
+                <p>68.5% of registered waste</p>
+            </div>
+
+            <div class="card">
+                <h3>Pending Collections</h3>
+                <h2>24</h2>
+                <p>Awaiting collection</p>
+            </div>
+
+            <div class="card">
+                <h3>Registered Users</h3>
+                <h2>185</h2>
+                <p>Users in the system</p>
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+
+            <div>
+
+                <!-- Waste Statistics -->
+                <div class="section">
+                    <h2>Waste Management Overview</h2>
+
+                    <div class="bar-item">
+                        <div class="bar-info">
+                            <span>Plastic Waste</span>
+                            <strong>75%</strong>
+                        </div>
+                        <div class="bar">
+                            <div class="progress" style="width:75%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar-info">
+                            <span>Paper and Cardboard</span>
+                            <strong>60%</strong>
+                        </div>
+                        <div class="bar">
+                            <div class="progress" style="width:60%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar-info">
+                            <span>Metal Waste</span>
+                            <strong>45%</strong>
+                        </div>
+                        <div class="bar">
+                            <div class="progress" style="width:45%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-item">
+                        <div class="bar-info">
+                            <span>Electronic Waste</span>
+                            <strong>30%</strong>
+                        </div>
+                        <div class="bar">
+                            <div class="progress" style="width:30%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Reports -->
+                <div class="section">
+                    <h2>Recent Waste Records</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Waste ID</th>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>WK001</td>
+                                <td>Plastic</td>
+                                <td>50 kg</td>
+                                <td><span class="status completed">Collected</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>WK002</td>
+                                <td>Cardboard</td>
+                                <td>30 kg</td>
+                                <td><span class="status pending">Pending</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>WK003</td>
+                                <td>Metal</td>
+                                <td>80 kg</td>
+                                <td><span class="status completed">Collected</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>WK004</td>
+                                <td>Electronic</td>
+                                <td>20 kg</td>
+                                <td><span class="status pending">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Right Section -->
+            <div>
+
+                <div class="section">
+                    <h2>Quick Actions</h2>
+
+                    <button class="btn">+ Register Waste</button>
+
+                    <br><br>
+
+                    <button class="btn">+ Schedule Collection</button>
+
+                    <br><br>
+
+                    <button class="btn">View Reports</button>
+                </div>
+
+                <div class="section">
+                    <h2>Collection Summary</h2>
+
+                    <h3 style="color:#16834b;font-size:28px;">
+                        85%
+                    </h3>
+
+                    <p>Collection completion rate</p>
+
+                    <br>
+
+                    <div class="bar">
+                        <div class="progress" style="width:85%"></div>
+                    </div>
+
+                    <br>
+
+                    <p>20 collections completed</p>
+                    <p>4 collections pending</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
